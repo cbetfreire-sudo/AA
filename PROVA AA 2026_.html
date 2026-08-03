@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contagem Regressiva - Prova Alfa Alfa 2026</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 16px;
+      padding: 40px 30px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #d4af37;
+      color: #0a192f;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: #f8f9fa;
+    }
+
+    .subtitle {
+      color: #8892b0;
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .time-card {
+      background: rgba(10, 25, 47, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px 5px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .time-card:hover {
+      transform: translateY(-3px);
+      border-color: #d4af37;
+    }
+
+    .number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #64ffda;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .label {
+      font-size: 0.75rem;
+      color: #8892b0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .date-info {
+      background: rgba(212, 175, 55, 0.1);
+      border-left: 4px solid #d4af37;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 0.9rem;
+      border-radius: 0 8px 8px 0;
+      color: #e6f1ff;
+    }
+
+    .date-info strong {
+      color: #d4af37;
+    }
+
+    @media (max-width: 480px) {
+      .countdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .number {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <span class="badge">Marinha do Brasil</span>
+    <h1>Concurso CA-AA / AFN 2026</h1>
+    <p class="subtitle">Contagem regressiva até o dia da prova de Alfa Alfa</p>
+
+    <div class="countdown-grid">
+      <div class="time-card">
+        <div class="number" id="days">00</div>
+        <div class="label">Dias</div>
+      </div>
+      <div class="time-card">
+        <div class="number" id="hours">00</div>
+        <div class="label">Horas</div>
+      </div>
+      <div class="time-card">
+        <div class="number" id="minutes">00</div>
+        <div class="label">Minutos</div>
+      </div>
+      <div class="time-card">
+        <div class="number" id="seconds">00</div>
+        <div class="label">Segundos</div>
+      </div>
+    </div>
+
+    <div class="date-info">
+      <strong>Data prevista:</strong> 18 de Outubro de 2026 às 10:00<br>
+      <em>Mantenha o foco nos estudos e boa preparação!</em>
+    </div>
+  </div>
+
+  <script>
+    // Data da prova: 18 de Outubro de 2026 às 10:00h
+    const examDate = new Date('2026-10-18T10:00:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = examDate - now;
+
+      if (distance < 0) {
+        document.querySelector('.container').innerHTML = `
+          <span class="badge">Marinha do Brasil</span>
+          <h1>A Prova Chegou!</h1>
+          <p class="subtitle">Desejamos uma excelente prova a todos os candidatos!</p>
+        `;
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = String(days).padStart(2, '0');
+      document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    }
+
+    // Atualiza imediatamente e a cada 1 segundo
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
