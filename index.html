@@ -3,8 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contagem Regressiva - Prova Alfa Alfa 2026</title>
+  <title>Dashboard CA-AA / AFN 2026</title>
   <style>
+    :root {
+      --bg-color: #0a192f;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --gold: #d4af37;
+      --gold-dim: rgba(212, 175, 55, 0.3);
+      --text-main: #e6f1ff;
+      --text-muted: #8892b0;
+      --accent: #64ffda;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,145 +23,284 @@
     }
 
     body {
-      background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
-      color: #ffffff;
+      background: linear-gradient(135deg, var(--bg-color) 0%, #112240 100%);
+      color: var(--text-main);
       min-height: 100vh;
+      padding: 30px 20px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
+      align-items: flex-start;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 16px;
-      padding: 40px 30px;
-      max-width: 600px;
+    /* Grid Layout Principal */
+    .dashboard-container {
+      max-width: 1000px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
     }
 
-    .badge {
-      display: inline-block;
-      background-color: #d4af37;
-      color: #0a192f;
-      font-weight: 700;
-      font-size: 0.85rem;
-      padding: 6px 14px;
-      border-radius: 20px;
+    /* Cards Genéricos */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--gold-dim);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--gold);
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 15px;
     }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-      color: #f8f9fa;
+    /* Sessão Redação (Ocupa toda a largura no topo) */
+    .redacao-section {
+      grid-column: 1 / -1; /* Força a ocupar todas as colunas */
+      text-align: center;
     }
 
-    .subtitle {
-      color: #8892b0;
-      font-size: 0.95rem;
-      margin-bottom: 30px;
+    .tema-texto {
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--text-main);
+      margin: 15px 0;
+      line-height: 1.5;
+    }
+    
+    .badge-diario {
+      display: inline-block;
+      background-color: var(--gold);
+      color: var(--bg-color);
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
     }
 
+    /* Cronômetro */
     .countdown-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 30px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
     }
 
     .time-card {
       background: rgba(10, 25, 47, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 10px;
-      padding: 15px 5px;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      padding: 20px 10px;
+      text-align: center;
     }
 
-    .time-card:hover {
-      transform: translateY(-3px);
-      border-color: #d4af37;
-    }
-
-    .number {
+    .time-card .number {
       font-size: 2.2rem;
       font-weight: 800;
-      color: #64ffda;
+      color: var(--accent);
       line-height: 1;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .label {
-      font-size: 0.75rem;
-      color: #8892b0;
+    .time-card .label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     .date-info {
       background: rgba(212, 175, 55, 0.1);
-      border-left: 4px solid #d4af37;
+      border-left: 4px solid var(--gold);
       padding: 12px 15px;
-      text-align: left;
       font-size: 0.9rem;
       border-radius: 0 8px 8px 0;
-      color: #e6f1ff;
     }
 
-    .date-info strong {
-      color: #d4af37;
+    /* Checklist */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
     }
 
-    @media (max-width: 480px) {
-      .countdown-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .number {
-        font-size: 1.8rem;
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: -15px;
+      margin-bottom: 20px;
+    }
+
+    .checklist-list {
+      list-style: none;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    /* Customização da barra de rolagem do checklist */
+    .checklist-list::-webkit-scrollbar { width: 6px; }
+    .checklist-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      background: rgba(10, 25, 47, 0.4);
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      border-left: 3px solid transparent;
+      transition: background 0.2s;
+    }
+
+    .check-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .check-item.concluido {
+      border-left-color: var(--accent);
+      opacity: 0.7;
+    }
+
+    .check-item.concluido span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* Checkbox visualmente bloqueado já que o controle é via JSON */
+    .check-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--text-muted);
+      border-radius: 4px;
+      margin-right: 15px;
+      cursor: not-allowed; /* Indica que não clica aqui */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .check-item.concluido input[type="checkbox"] {
+      border-color: var(--accent);
+      background-color: var(--accent);
+    }
+
+    .check-item.concluido input[type="checkbox"]::after {
+      content: '✔';
+      color: var(--bg-color);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .aviso-json {
+      font-size: 0.75rem;
+      color: var(--gold);
+      text-align: center;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        grid-template-columns: 1fr; /* Coloca tudo em uma coluna no celular */
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <span class="badge">Marinha do Brasil</span>
-    <h1>Concurso CA-AA / AFN 2026</h1>
-    <p class="subtitle">Contagem regressiva até o dia da prova de Alfa Alfa</p>
+  <div class="dashboard-container">
+    
+    <!-- Seção: Redação (Topo) -->
+    <div class="card redacao-section">
+      <span class="badge-diario">Tema do Dia</span>
+      <div class="card-title" style="margin-bottom: 0; border: none;">Proposta de Redação</div>
+      <p class="tema-texto" id="redacao-texto">Carregando tema de hoje...</p>
+    </div>
 
-    <div class="countdown-grid">
-      <div class="time-card">
-        <div class="number" id="days">00</div>
-        <div class="label">Dias</div>
+    <!-- Seção: Cronômetro (Esquerda) -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Contagem Regressiva - CA-AA</div>
       </div>
-      <div class="time-card">
-        <div class="number" id="hours">00</div>
-        <div class="label">Horas</div>
+      
+      <div class="countdown-grid">
+        <div class="time-card">
+          <div class="number" id="days">00</div>
+          <div class="label">Dias</div>
+        </div>
+        <div class="time-card">
+          <div class="number" id="hours">00</div>
+          <div class="label">Horas</div>
+        </div>
+        <div class="time-card">
+          <div class="number" id="minutes">00</div>
+          <div class="label">Min.</div>
+        </div>
+        <div class="time-card">
+          <div class="number" id="seconds">00</div>
+          <div class="label">Seg.</div>
+        </div>
       </div>
-      <div class="time-card">
-        <div class="number" id="minutes">00</div>
-        <div class="label">Minutos</div>
-      </div>
-      <div class="time-card">
-        <div class="number" id="seconds">00</div>
-        <div class="label">Segundos</div>
+
+      <div class="date-info">
+        <strong>Data da Prova:</strong> 18 Out 2026 às 10:00<br>
       </div>
     </div>
 
-    <div class="date-info">
-      <strong>Data prevista:</strong> 18 de Outubro de 2026 às 10:00<br>
-      <em>Mantenha o foco nos estudos e boa preparação!</em>
+    <!-- Seção: Checklist (Direita) -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Edital - Progresso</div>
+      </div>
+      
+      <div class="progress-bar-container">
+        <div class="progress-fill" id="progress-bar"></div>
+      </div>
+      <div class="progress-text" id="progress-text">0% Concluído</div>
+
+      <ul class="checklist-list" id="checklist-container">
+        <!-- Itens serão injetados aqui via JS -->
+        <li style="text-align: center; color: #8892b0; margin-top: 20px;">Carregando checklist...</li>
+      </ul>
+      <div class="aviso-json">* A marcação de progresso é feita editando o arquivo "list.json".</div>
     </div>
+
   </div>
 
   <script>
-    // Data da prova: 18 de Outubro de 2026 às 10:00h
+    // ---------------------------------------------------------
+    // LÓGICA 1: CONTAGEM REGRESSIVA
+    // ---------------------------------------------------------
     const examDate = new Date('2026-10-18T10:00:00').getTime();
 
     function updateCountdown() {
@@ -159,28 +308,89 @@
       const distance = examDate - now;
 
       if (distance < 0) {
-        document.querySelector('.container').innerHTML = `
-          <span class="badge">Marinha do Brasil</span>
-          <h1>A Prova Chegou!</h1>
-          <p class="subtitle">Desejamos uma excelente prova a todos os candidatos!</p>
-        `;
+        document.getElementById('days').innerText = '00';
+        document.getElementById('hours').innerText = '00';
+        document.getElementById('minutes').innerText = '00';
+        document.getElementById('seconds').innerText = '00';
         return;
       }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById('days').innerText = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
+      document.getElementById('hours').innerText = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-      document.getElementById('days').innerText = String(days).padStart(2, '0');
-      document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-      document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-      document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    // ---------------------------------------------------------
+    // LÓGICA 2: CARREGAR TEMA DE REDAÇÃO DIÁRIO
+    // ---------------------------------------------------------
+    async function loadRedacao() {
+      try {
+        const response = await fetch('dados/redacao.json');
+        const temas = await response.json();
+        
+        // Cálculo de dias desde a Epoch (1 Jan 1970) com base no fuso local
+        const hoje = new Date();
+        // Ajusta para o timezone local (evita que o tema mude à noite no BR por causa do UTC)
+        const offset = hoje.getTimezoneOffset() * 60000; 
+        const diasTranscorridos = Math.floor((hoje.getTime() - offset) / (1000 * 60 * 60 * 24));
+        
+        // Operador Módulo garante rotação infinita da lista
+        const indiceDoDia = diasTranscorridos % temas.length;
+        
+        document.getElementById('redacao-texto').innerText = `"${temas[indiceDoDia]}"`;
+      } catch (error) {
+        console.error("Erro ao carregar redação:", error);
+        document.getElementById('redacao-texto').innerText = "Não foi possível carregar os temas de redação. Verifique os arquivos.";
+      }
     }
 
-    // Atualiza imediatamente e a cada 1 segundo
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    // ---------------------------------------------------------
+    // LÓGICA 3: CARREGAR CHECKLIST DINÂMICO
+    // ---------------------------------------------------------
+    async function loadChecklist() {
+      try {
+        const response = await fetch('dados/list.json');
+        const materias = await response.json();
+        
+        const container = document.getElementById('checklist-container');
+        container.innerHTML = ''; // Limpa o carregando
+        
+        let concluidas = 0;
+
+        materias.forEach(item => {
+          if (item.estudado) concluidas++;
+          
+          const li = document.createElement('li');
+          li.className = `check-item ${item.estudado ? 'concluido' : ''}`;
+          
+          // O input é 'disabled' porque a instrução foi que o estado venha estritamente do JSON
+          li.innerHTML = `
+            <input type="checkbox" disabled ${item.estudado ? 'checked' : ''}>
+            <span>${item.materia}</span>
+          `;
+          
+          container.appendChild(li);
+        });
+
+        // Atualizar barra de progresso
+        const porcentagem = materias.length > 0 ? Math.round((concluidas / materias.length) * 100) : 0;
+        document.getElementById('progress-bar').style.width = `${porcentagem}%`;
+        document.getElementById('progress-text').innerText = `${porcentagem}% Concluído`;
+
+      } catch (error) {
+        console.error("Erro ao carregar checklist:", error);
+        document.getElementById('checklist-container').innerHTML = 
+          '<li style="text-align:center; color:#ff6b6b;">Erro ao carregar lista. Verifique se o arquivo dados/list.json existe.</li>';
+      }
+    }
+
+    // Inicializar chamadas
+    loadRedacao();
+    loadChecklist();
   </script>
 
 </body>
